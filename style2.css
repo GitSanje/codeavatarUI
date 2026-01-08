@@ -21,7 +21,7 @@ body {
 .container {
     max-width: 1250px;
     margin: 0 auto;
-    
+    position: relative;
 
 }
 
@@ -42,6 +42,7 @@ body {
 
 .top-left h2 {
     font-weight: 600;
+    /* fluid responsive heading: scales smoothly between 1.6rem and 3rem using viewport width */
     font-size: clamp(1.6rem, 2.5vw + 1rem, 3rem);
    
 
@@ -58,6 +59,8 @@ body {
     padding: 5px;
     border-radius: 999px;
     width: 150px;
+
+
 }
 
 
@@ -121,23 +124,28 @@ body {
 
 .slider {
     position: relative;
-    max-width: 1350px;
-    margin-inline: auto;
+    max-width: 1250px;
+    inset: 0;
     width: 100%;
+    margin: 0 auto;
     border: 1px solid var(--ternary-color);
     border-radius: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+    min-height: clamp(420px, 60vh, 700px);
     padding: 24px;
     overflow: hidden; 
 }
 
-.slider-track {
-    position: relative;
-    display: grid;
-}
 
 .slider-content {
-    grid-area: 1 / 1;
-    display: grid; 
+    position: absolute;
+    width: 100%;
+    /* hide inactive slides so they don't take up layout space; show only the .active slide */
+    display: none;
+    /* flexible columns that won't overflow on small screens */
     grid-template-columns: repeat(3, minmax(220px, 1fr));
     grid-template-rows: repeat(2, minmax(180px, auto));
     gap: 1em;
@@ -172,7 +180,7 @@ body {
 
 
 .slider-content.active {
-
+    display: grid;
     opacity: 1;
     animation: slideInFromRight 0.8s ease-in-out forwards;
     pointer-events: auto;
@@ -180,6 +188,7 @@ body {
 }
 
 .slider-content.exit {
+    display: grid;
     animation: slideOutToLeft 0.8s ease-in-out forwards;
 }
 
@@ -314,8 +323,7 @@ body {
     .slider-content {
         margin-top: 50px;
         display: grid;
-        /* grid-template-columns: 300px repeat(2, 450px); */
-         grid-template-columns: 300px repeat(2, minmax(0, 1fr));
+        grid-template-columns: 300px repeat(2, 450px);
         grid-template-rows: repeat(2, 300px);
         grid-template-areas:
             "card-blue card-image1 card-image2 "
@@ -333,22 +341,24 @@ body {
 }
 
 @media (min-width:768px) and (max-width: 1024px) {
-   .container {
+    main.container {
+        max-width: 1024px;
+        margin: 0 auto;
         display: flex;
         flex-direction: column;
         align-items: center;
+
     }
 
     .slider {
-        
-          order: 2;
-        
+            min-height: auto; 
+            height: auto;
         }
 
     .slider-content {
-       
         margin-top: 50px;
           display: grid;
+         
         grid-template-columns: repeat(2, 300px);
         grid-template-rows: repeat(3, 300px);
         grid-template-areas:
@@ -361,7 +371,7 @@ body {
     }
 
     .slider-content.active {
-      
+        /* display: grid; */
         opacity: 1;
     }
 
@@ -384,7 +394,10 @@ body {
         grid-row: 1;
     } */
 
-  
+    .slider {
+
+        order: 2;
+    }
 
     .card-image1,
     .card-image2 {
