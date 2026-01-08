@@ -20,7 +20,7 @@ body {
 
 .container {
    max-width: 1250px;
-   margin-inline: auto; 
+   margin: 0 auto; 
      
 }
 
@@ -143,7 +143,7 @@ body {
 }
 
 
-@keyframes slideInFromRight {
+@keyframes slideInFromLeft{
     from {
         transform: translateX(-100%);
         opacity: 0;
@@ -155,7 +155,19 @@ body {
     }
 }
 
-@keyframes slideOutToLeft {
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutToRight {
     from {
         transform: translateX(0);
         opacity: 1;
@@ -167,16 +179,38 @@ body {
     }
 }
 
+@keyframes slideOutToLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
 
-.slider-content.active {
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+.slider-content.active-left {
+
+    opacity: 1;
+    animation: slideInFromLeft 0.8s ease-in-out forwards;
+    pointer-events: auto;
+ 
+}
+.slider-content.active-right {
 
     opacity: 1;
     animation: slideInFromRight 0.8s ease-in-out forwards;
     pointer-events: auto;
-    z-index: 2000;
+ 
 }
 
-.slider-content.exit {
+.slider-content.exit-right{
+    animation: slideOutToRight 0.8s ease-in-out forwards;
+}
+
+.slider-content.exit-left{
     animation: slideOutToLeft 0.8s ease-in-out forwards;
 }
 

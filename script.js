@@ -12,19 +12,53 @@ document.addEventListener("DOMContentLoaded", () => {
   const AUTO_SLIDE_DELAY = 5000;
 
 
+  function resetSlide(slide) {
+  slide.classList.remove(
+    "active-left",
+    "active-right",
+    "exit-left",
+    "exit-right"
+  );
+}
+
   /* ---------- CORE FUNCTIONS ---------- */
   function showSlide(index) {
     if (index === currentIndex) return;
     const currentSlide = slides[currentIndex];
     const nextSlide = slides[index];
 
-    slides.forEach(slide => slide.classList.remove("active"));
+     const isNext = index > currentIndex;
+
+    const activeClass = isNext ? "active-right" : "active-left";
+    const exitClass = isNext ? "exit-left" : "exit-right";
+
+     // Reset all slides first
+    slides.forEach(resetSlide);
+
+
+    const active = index < currentIndex? "active-right": "active-left";
+    const exit = index < currentIndex? "exit-left": "exit-right"
+
+    // slides.forEach(slide => slide.classList.remove(active));
+
+     // Animate current out
+    currentSlide.classList.add(exit);
+    currentSlide.style.zIndex = 1;
+      // Animate next in
+    nextSlide.classList.add(active);
+    nextSlide.style.zIndex = 2;
+
+
+    // Update dots
     dots.forEach(dot => dot.classList.remove("dot-active"));
-    currentSlide.classList.add("exit");
-    nextSlide.classList.add("active");
     dots[index].classList.add("dot-active");
+
+    currentSlide.classList.add(exit);
+    nextSlide.classList.add(active)
+    
     setTimeout(() => {
-      currentSlide.classList.remove("exit");
+      currentSlide.classList.remove(exit);
+       currentSlide.style.zIndex = "";
     }, 600);
 
 
