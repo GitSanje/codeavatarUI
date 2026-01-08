@@ -131,13 +131,21 @@ body {
     position: relative;
     overflow: hidden;
     height:700px;
-    width: 1350px;
+    width: 100%; 
+    max-width: 1350px;
+    margin: 50px auto;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    min-height: 700px;
+    padding: 100px;
+     z-index: 1000;
 }
 
 
 .slider-content {
     position: absolute;
-    inset: 0;
+   
     margin-top: 50px;
     display: grid;
     grid-template-columns: 300px repeat(2, 450px);
@@ -147,7 +155,9 @@ body {
         "card-pink card-image1 card-image2 ";
     gap: 1em;
     opacity: 0;
-    transform: translateX(100%);
+      z-index: 2000;
+  
+    /* transform: translateX(100%); */
 
 }
 
@@ -345,13 +355,14 @@ body {
     }
 
   .slider{
-    width: 768px;
+    width: 500px;
     height: 1000px;
   }
 
     .slider-content {
         margin-top: 50px;
           display: grid;
+        
         grid-template-columns: repeat(2, 300px);
         grid-template-rows: repeat(3, 300px);
         grid-template-areas:
@@ -416,15 +427,13 @@ body {
 
 @media (max-width: 768px) {
     main.container {
-
+        max-width: 768px;
+        margin: 0 auto;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-     .slider{
-      width: 600px;
-   
-     }
+    
 
 
     .icon {
