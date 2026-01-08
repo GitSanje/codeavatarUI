@@ -21,6 +21,8 @@ body {
 .container {
     max-width: 1250px;
     margin: 0 auto;
+    position: relative;
+
 }
 
 .top {
@@ -49,7 +51,7 @@ body {
 
 }
 
-/* RIGHT CONTROLS */
+/* SLIDER CONTROLS */
 
 .slider-controls {
     display: flex;
@@ -60,11 +62,10 @@ body {
     padding: 5px;
     border-radius: 999px;
     width: 150px;
+
+
 }
 
-.small-screen {
-    display: none;
-}
 
 
 .dot {
@@ -124,17 +125,68 @@ body {
 
 /* SLIDER */
 
+.slider {
+    border: solid var(--ternary-color) 1px;
+    border-radius: 64px;
+    position: relative;
+    overflow: hidden;
+    height:700px;
+    width: 1350px;
+}
+
+
 .slider-content {
+    position: absolute;
+    inset: 0;
     margin-top: 50px;
+    display: grid;
     grid-template-columns: 300px repeat(2, 450px);
     grid-template-rows: repeat(2, 300px);
+    grid-template-areas:
+        "card-blue card-image1 card-image2 "
+        "card-pink card-image1 card-image2 ";
     gap: 1em;
-    display: none;
+    opacity: 0;
+    transform: translateX(100%);
 
 }
 
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutToLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+
 .slider-content.active {
+    opacity: 1;
+    animation: slideInFromRight 0.8s ease-in-out forwards;
+    pointer-events: auto;
+    z-index: 2000;
+}
+
+.slider-content.exit {
     display: grid;
+    animation: slideOutToLeft 0.8s ease-in-out forwards;
 }
 
 .card {
@@ -205,61 +257,115 @@ body {
 
 
 
+
 .card-blue {
     background: var(--primary-color);
+    grid-area: card-blue;
 
 }
 
 .card-pink {
     justify-content: space-between;
     background: var(--secondary-color);
-    grid-column: 1;
-    grid-row: 2;
+    grid-area: card-pink;
+
+    /* grid-column: 1;
+    grid-row: 2; */
 
 }
 
 /* Image cards */
 .card-image1 {
+    background-image: var(--bg-desktop);
     background-size: cover;
     background-position: center;
     position: relative;
-    grid-column: 2;
-    grid-row: span 2;
-    /* box-shadow: 8px 0 15px rgba(0, 0, 0, 0.35); */
+    grid-area: card-image1;
+    /* grid-column: 2;
+    grid-row: span 2; */
+
 
 }
 
 .card-image2 {
+    background-image: var(--bg-desktop);
     background-size: cover;
     background-position: center;
     position: relative;
-    grid-column: 3;
-    grid-row: span 2;
+    grid-area: card-image2;
+    /* grid-column: 3;
+    grid-row: span 2; */
 
 }
 
+
+
+
+
 /* SLIDER TABLET VIEW */
-
-
-@media (min-width: 768px) and (max-width: 1024px) {
-    main.container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
+@media (min-width: 1024px) {
     .container {
-        max-width: 1024px;
-        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "top controls"
+            "slider slider";
+        align-items: center;
     }
 
     .slider-content {
         margin-top: 50px;
         display: grid;
+        grid-template-columns: 300px repeat(2, 450px);
+        grid-template-rows: repeat(2, 300px);
+        grid-template-areas:
+            "card-blue card-image1 card-image2 "
+            "card-pink card-image1 card-image2 ";
+        gap: 1em;
+
+
+    }
+
+    .slider-controls {
+
+        align-self: self-end;
+        transform: translateX(-150px);
+    }
+
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    main.container {
+        max-width: 1024px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+  .slider{
+    width: 768px;
+    height: 1000px;
+  }
+
+    .slider-content {
+        margin-top: 50px;
+          display: grid;
         grid-template-columns: repeat(2, 300px);
         grid-template-rows: repeat(3, 300px);
+        grid-template-areas:
+            "card-blue card-pink"
+            "card-image1 card-image1"
+            "card-image2 card-image2";
         justify-content: center;
         gap: 1em;
+        opacity: 0;
+    }
+
+    .slider-content.active {
+        /* display: grid; */
+        opacity: 1;
     }
 
     .top {
@@ -271,29 +377,19 @@ body {
         order: 1;
     }
 
-    .card-pink {
+    /* .card-pink {
         grid-column: 2;
         grid-row: 1;
-    }
+    } */
 
     .slider {
 
         order: 2;
     }
 
-    .card-image1 {
-
-        background-image: url(assets/slide1_row2_t.png);
-        grid-row: 2;
-        grid-column: span 2;
-
-    }
-
+    .card-image1,
     .card-image2 {
-        background-image: url(assets/slide1_row2_t.png);
-        grid-row: 3;
-        grid-column: span 2;
-
+        background-image: var(--bg-tablet);
     }
 
     .img-title {
@@ -311,24 +407,25 @@ body {
         margin: 50px 0px;
     }
 
-    .large-screen {
-        display: none;
-    }
 
-    .small-screen {
-        display: flex;
-
-    }
 
 }
 
 
+/* SLIDER MOBILE VIEW */
+
 @media (max-width: 768px) {
     main.container {
+
         display: flex;
         flex-direction: column;
         align-items: center;
     }
+     .slider{
+      width: 600px;
+   
+     }
+
 
     .icon {
         --icon-color: #fff;
@@ -369,35 +466,32 @@ body {
 
     .slider-content {
         margin-top: 50px;
+        /* display: none; */
         display: grid;
         grid-template-columns: repeat(2, 200px);
         grid-template-rows: repeat(3, 200px);
+        grid-template-areas:
+            "card-blue card-pink"
+            "card-image1 card-image1"
+            "card-image2 card-image2";
         justify-content: center;
         gap: 1em;
+        opacity: 0;
     }
 
+    .slider-content.active {
+        display: grid;
+        opacity: 1;
+    }
 
-    .card-pink {
+    /* .card-pink {
         grid-column: 2;
         grid-row: 1;
-    }
+    } */
 
-    .card-image1 {
-
-
-        background-image: url(assets/slide1_row2_t.png);
-        grid-row: 2;
-        grid-column: span 2;
-
-
-
-    }
-
+    .card-image1,
     .card-image2 {
-        background-image: url(assets/slide1_row2_t.png);
-        grid-row: 3;
-        grid-column: span 2;
-
+        background-image: var(--bg-tablet);
     }
 
     .img-title {
@@ -413,14 +507,8 @@ body {
     .slider-controls {
         order: 3;
         margin: 50px 0px;
+        align-self: center;
     }
 
-    .large-screen {
-        display: none;
-    }
 
-    .small-screen {
-        display: flex;
-
-    }
 }
